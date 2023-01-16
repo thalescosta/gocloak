@@ -2436,6 +2436,15 @@ func (g *GoCloak) CreateAuthenticationExecution(ctx context.Context, token, real
 	return checkForError(resp, err, errMessage)
 }
 
+// CreateRealmAuthenticationExecution creates a new execution for in the given realm
+func (g *GoCloak) CreateRealmAuthenticationExecution(ctx context.Context, token, realm string, execution RealmAuthenticationExecutionRepresentation) error {
+	const errMessage = "could not create authentication execution"
+	resp, err := g.getRequestWithBearerAuth(ctx, token).SetBody(execution).
+		Post(g.getAdminRealmURL(realm, "authentication", "executions"))
+
+	return checkForError(resp, err, errMessage)
+}
+
 // UpdateAuthenticationExecution updates an authentication execution for the given flow in the given realm
 func (g *GoCloak) UpdateAuthenticationExecution(ctx context.Context, token, realm, flow string, execution ModifyAuthenticationExecutionRepresentation) error {
 	const errMessage = "could not update authentication execution"
